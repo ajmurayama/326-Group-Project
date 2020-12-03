@@ -8,6 +8,10 @@ class Store:
         list_of_users: list of Users, including vendors and admins.
     """
     def __init__(self):
+        """Initializes the attributes, inventory and list_of_users and assigns them to empty lists.
+        Args:
+            self: object
+        """
         self.inventory = []
         self.list_of_users = []   
         
