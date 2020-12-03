@@ -28,6 +28,13 @@ class Store:
                 return product
             
     def find_user(self,username):
+        """Searches for the usernames in the list
+        Args:
+            self: object
+            username: the name of the user
+        Returns:
+            the username of the user
+        """
         for user in list_of_users:
             if user.username == username:
                 return user
@@ -35,25 +42,54 @@ class Store:
 class Product:
     """Creates a product  to be listed in the store with the vendor name, a description, and the price"""
     def __init__(self, name, price, quantity, vendor):
+        """Initializes attributes which are name, price, quantity, and vendor
+        Args:
+            self: object
+            name: name of the product
+            price: price of the product
+            quantity: quantity of the product
+            vendor: vendor name
+        """
         self.name = name
         self.price = price
         self.quantity = quantity
         self.vendor = vendor
         
     def increase_quantity(self,qt):
+        """Adds to the amount of products
+        Args:
+            qt: current quantity of the products
+        """
         self.quantity += qt
         
     def decrease_quantity(self,qt):
+        """Decreases the quantity of products
+        Args:
+            qt: current quantity of the products
+        """
         self.quantity -= qt
 
 class User:
     """Parent class for Admin, Vendor, and Customer."""
     def __init__(self, username, email, password):
+        """Initializes attributes username, email, and password
+        Args:
+            self: object
+            username: username of the user
+            email: email of the user
+            password: password of the user
+        """
         self.username = username
         self.email = email
         self.password = password
         
     def look_at_inventory(self,store):
+        """Searches through the inventory of products to determine the price and quantity and to determine whether the product is in stock or not.
+        Args:
+            store: the name of store that contains the products.
+        Returns:
+            the product name, price, quantity and whether it's in stock or not
+        """
         for product in store.inventory:
             print(f"{product.name}: {product.price}$. {product.quantity} available in stock.\n")
         
