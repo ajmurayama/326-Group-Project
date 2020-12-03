@@ -16,6 +16,13 @@ class Store:
         self.list_of_users = []   
         
     def find_product(self,item_name):
+        """Finds the specific item in the inventory of products
+        Args:
+            self: object
+            item_name : name of the item that is trying to be found.
+        Returns:
+            the product that is being looked for
+        """
         for product in self.inventory:
             if product.name == item_name:
                 return product
