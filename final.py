@@ -293,8 +293,20 @@ class Cart:
     
     def show_cost(self):
         cost = calculate_cost(self)
-        print(f"Total checkout: ${cost}")
+        if self.discount != 0: 
+            cost = apply_discount(self)
+        print(f"Total checkout: ${cost}"
+    
+    def apply_discount(self):
+        cost = calculate_cost(self)
+        new_price = cost * (1 - (self.discount/100))
         
+        return discount_total
+    
+    def show_amount_saved(self):
+        saved = apply_discount(self)
+        print(f"Total saved: ${saved}"
+              
     def show_in_different_currency(self,currency):
         """Implement API here.
         Returns the final price of the item in the customer's currency. Args: Original Price, Final price in desired currency."""
