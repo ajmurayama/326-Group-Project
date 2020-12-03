@@ -184,6 +184,12 @@ class Vendor(User):
             self.my_products.remove(product)
         else:
             print("You are not selling this product.")
+    def get_product_information(self,name):
+        """returns the current product information.
+        Args:
+            qt: current quantity of the products
+        """
+        return f"{product.name}: {product.price}$. {product.quantity}")
             
     def see_my_products(self):
         """Prints the vendor's my_products list."""
@@ -314,6 +320,10 @@ class Cart:
         if currency == "Euro":
             cost = cost * 0.82
             print(f"Total checkout: €{cost}")
+        if currency == "USD":
+            cost = cost 
+        if currency == "GBP"
+            cost = cost * 1.5
         else:
             print("Sorry, this currency is not available.")
             
