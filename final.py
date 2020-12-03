@@ -70,15 +70,13 @@ class Product:
         self.quantity -= qt
 
 class User:
-    """Parent class for Admin, Vendor, and Customer."""
+    """Parent class for Admin, Vendor, and Customer.
+    Attributes:
+        username(str): username of the user.
+        email(str): email of the user.
+        password(str): password of the user.
+    """
     def __init__(self, username, email, password):
-        """Initializes attributes username, email, and password
-        Args:
-            self: object
-            username: username of the user
-            email: email of the user
-            password: password of the user
-        """
         self.username = username
         self.email = email
         self.password = password
@@ -86,15 +84,20 @@ class User:
     def look_at_inventory(self,store):
         """Searches through the inventory of products to determine the price and quantity and to determine whether the product is in stock or not.
         Args:
-            store: the name of store that contains the products.
+            store(Store object): the name of store that contains the products.
         Returns:
-            the product name, price, quantity and whether it's in stock or not
+            the product name, price, quantity and whether it's in stock or not.
         """
         for product in store.inventory:
             print(f"{product.name}: {product.price}$. {product.quantity} available in stock.\n")
         
 class Customer(User):
-    """Buy stuff."""
+    """Subclass of User. Buys products in this store.
+    Attributes:
+        my_cart(Cart object): personal shopping cart of the customer.
+        my_balance(int): customer's balance with which they pay for products.
+        purchased_items(list of Product objects): a list of products that have been purchased by the customer.
+    """
     def __init__(self):
         super().__init__(self)
         self.my_cart = Cart()
@@ -102,34 +105,79 @@ class Customer(User):
         self.purchased_items = []
         
     def add_to_my_cart(self,product):
+        """Add a product to the cart.
+        Args:
+            product(Product object): a product that customer wants to add to their shopping cart.
+        Returns:
+            Updates the shopping cart.
+        """
         self.my_cart.add_product(product)
         
     def remove_from_my_cart(self,product):
+        """Remove a product from the cart.
+        Args:
+            product(Product object): a product that customer wants to remove from their shopping cart.
+        Returns:
+            Updates the shopping cart.
+        """
         self.my_cart.remove_product(product)
     
     def add_balance(self,quantity):
+        """Add balance from credit card.
+        Args:
+            quantity(int): amount that is being transferred from credit card to customer's store balance.
+        Returns:
+            Takes money from credit card and updates the balance.
+        """
         self.my_balance += quantity
         
     def checkout_cart(self, store):
+        """Checkout the cart.
+        Args:
+            store(Store object): this store.
+        Returns:
+            Checkout the cart.
+        """
         self.my_cart.checkout(self)
         
     def show_my_purchased_items(self):
+        """Print customer's list of purchased items."""
         for product in self.purchased_items:
             print(f"{product.name}\n")
     
 
 class Vendor(User):
-    """Sell stuff."""
+    """Subclass of User. Sells products in this store.
+    Attribute:
+        my_products(list of Product objects): list of products that vendor is selling.
+    """
     def __init__(self):
         super().__init__(self)
         self.my_products = []
         
     def add_product(self,store,item_name,item_price,item_quantity):
+        """Add product to the store's inventory.
+        Args:
+            store(Store object): this store.
+            item_name(str): name of the product.
+            item_price(int): price of the product in USD.
+            item_quantity(int): quantity of the product.
+        Returns:
+            Updates the store's inventory and the vendor's my_products list.
+        """
         product = Product(item_name,item_price,item_quantity,self)
         store.inventory.append(product)
         self.my_products.append(product)
         
     def remove_product(self,store,item_name):
+        """Remove product from the store's inventory. Only if this product is being sold by this vendor.
+        Args:
+            store(Store object): this store.
+            item_name(str): name of the product.
+        Returns:
+            Updates the store's inventory and the vendor's my_products list.
+            If the product doesn't belong to this vendor, prints a message.
+        """
         product = store.find_product(item_name)
         if product.vendor == self:
             store.inventory.remove(product)
@@ -138,37 +186,84 @@ class Vendor(User):
             print("You are not selling this product.")
             
     def see_my_products(self):
+        """Prints the vendor's my_products list."""
         for product in self.my_products:
             print(f"{product.name}: {product.price}$. {product.quantity} available in stock.\n")
         
 class Admin(User):
-    """Has the authority to edit inventory, add/remove vendors and customers, see their info."""
+    """Subclass of User. Has the authority to edit inventory, add/remove vendors and customers, see their info."""
     def add_to_inventory(self,store,item_name,item_quantity,item_price):
-        """Assuming the product is not in inventory."""
+        """Assuming the product is not in inventory, adds a new product to the inventory.
+        Args:
+            store(Store object): this store.
+            item_name(str): name of the product.
+            item_quantity(int): quantity of the product.
+            item_price(int): price of the product.
+        Returns:
+            Updates the store's inventory with a new product. Admin is the vendor of this product.
+        """
         product = Product(item_name,item_price,item_quantity,self)
         store.inventory.append(product)
             
     def take_from_inventory(self,store,item_name,quantity):
-        """Assuming the product is in inventory and the requested quantity is available in stock."""
+        """Assuming the product is in inventory and the requested quantity is available in stock, takes some amount of the product from the store's inventory.
+        Args:
+            store(Store object): this store.
+            item_name(str): name of the product.
+            quantity(int): quantity of the product being taken.
+        Returns:
+            Updates the store's inventory.
+        """
         product = store.find_product(item_name)
         product.decrease_quantity(quantity)
         
     def remove_from_inventory(self,store,item_name):
+        """Assuming the product is in inventory and the requested quantity is available in stock, removes the product completely from the store's inventory.
+        Args:
+            store(Store object): this store.
+            item_name(str): name of the product.
+        Returns:
+            Updates the store's inventory.
+        """
         product = store.find_product(item_name)
         store.inventory.remove(product)
             
     def add_new_user(self,store,user):
+        """Adds a new user.
+        Args:
+            store(Store object): this store.
+            user(User object): a new user.
+        Returns:
+            Updates the store's list of users.
+        """
         store.list_of_users.append(user)
         
     def remove_user(self,store,user):
+        """Removes a user.
+        Args:
+            store(Store object): this store.
+            user(User object): a user that is being removed.
+        Returns:
+            Updates the store's list of users.
+        """
         store.list_of_users.remove(user)
         
     def get_list_of_users(self,store):
+        """Prints the store's list of users.
+        Args:
+            store(Store object): this store."""
         for user in store.list_of_users:
             print(user.username + "\n")
             
-    def get_user_info(self, board, username):
-        for user in board.list_of_users:
+    def get_user_info(self, store, username):
+        """Prints user's info.
+        Args:
+            store(Store object): this store.
+            username(str): username of the user.
+        Returns:
+            Prints user's username, email, and password.
+        """
+        for user in store.list_of_users:
             if user.username == username:
                 print(f"Username: " + {username} + "\nEmail: " + {user.email} + "\nPassword: " + {user.password}) 
         
