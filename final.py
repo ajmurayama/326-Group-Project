@@ -299,18 +299,27 @@ class Cart:
         return total_cost_usd
     
     def show_cost(self):
+        """Shows the final price of the products along with the addition of any discounts"""
+
         cost = calculate_cost(self)
         if self.discount != 0: 
             cost = apply_discount(self)
         print(f"Total checkout: ${cost}"
     
     def apply_discount(self):
+       """Applies the discount to the checkout price.
+       Returns:
+            Total Discount"""
         cost = calculate_cost(self)
         new_price = cost * (1 - (self.discount/100))
         
         return discount_total
     
     def show_amount_saved(self):
+        """Shows the user the amount of money they saved.
+        Returns:
+            The total money they saved.
+        """
         saved = apply_discount(self)
         print(f"Total saved: ${saved}"
               
