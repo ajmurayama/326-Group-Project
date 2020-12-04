@@ -41,7 +41,7 @@ class Store:
             
 class Product:
     """Creates a product  to be listed in the store with the vendor name, a description, and the price"""
-    def __init__(self, name, price, quantity, vendor):
+    def __init__(self, name, price, quantity, vendor, description):
         """Initializes attributes which are name, price, quantity, and vendor
         Args:
             self: object
@@ -54,6 +54,7 @@ class Product:
         self.price = price
         self.quantity = quantity
         self.vendor = vendor
+        self.description = description
         
     def increase_quantity(self,qt):
         """Adds to the amount of products
