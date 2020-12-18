@@ -81,14 +81,16 @@ class User:
         self.password = password
         
     def look_at_inventory(self,store):
-        """Searches through the inventory of products to determine the price and quantity and to determine whether the product is in stock or not.
+        """Searches through the inventory of products to determine the price and quantity
+        and to determine whether the product is in stock or not.
         Args:
             store(Store object): the name of store that contains the products.
         Returns:
             the product name, price, quantity and whether it's in stock or not.
         """
         for product in store.inventory:
-            print(f"{product.name}: {product.price}$. {product.quantity} available in stock.\n")
+            print(f"{product.name}: {product.price}$. {product.quantity}
+            available in stock.\n")
         
 class Customer(User):
     """Subclass of User. Buys products in this store.
@@ -196,7 +198,8 @@ class Vendor(User):
             print(f"{product.name}: {product.price}$. {product.quantity} available in stock.\n")
         
 class Admin(User):
-    """Subclass of User. Has the authority to edit inventory, add/remove vendors and customers, see their info."""
+    """Subclass of User. Has the authority to edit inventory, 
+    add/remove vendors and customers, see their info."""
     def add_to_inventory(self,store,item_name,item_quantity,item_price):
         """Assuming the product is not in inventory, adds a new product to the inventory.
         Args:
@@ -211,7 +214,8 @@ class Admin(User):
         store.inventory.append(product)
             
     def take_from_inventory(self,store,item_name,quantity):
-        """Assuming the product is in inventory and the requested quantity is available in stock, takes some amount of the product from the store's inventory.
+        """Assuming the product is in inventory and the requested quantity is available in stock,
+        takes some amount of the product from the store's inventory.
         Args:
             store(Store object): this store.
             item_name(str): name of the product.
@@ -223,7 +227,8 @@ class Admin(User):
         product.decrease_quantity(quantity)
         
     def remove_from_inventory(self,store,item_name):
-        """Assuming the product is in inventory and the requested quantity is available in stock, removes the product completely from the store's inventory.
+        """Assuming the product is in inventory and the requested quantity is available in stock,
+        removes the product completely from the store's inventory.
         Args:
             store(Store object): this store.
             item_name(str): name of the product.
@@ -273,7 +278,8 @@ class Admin(User):
                 print(f"Username: " + {username} + "\nEmail: " + {user.email} + "\nPassword: " + {user.password}) 
         
 class Cart:
-    """Calculate final checkout price of the order with the option to add or remove from cart and to add a discount code. """
+    """Calculate final checkout price of the order with the option to add
+    or remove from cart and to add a discount code. """
     def __init__(self):
         self.cart = []
         self.discount = 0
@@ -289,7 +295,10 @@ class Cart:
         self.cart.remove(product)
         
     def calculate_cost(self):
-        """Determines the checkout price for the order by including the shipping cost and discount Args: discount codes, Shipping cost. Returns: Float of the final checkout price"""
+        """Determines the checkout price for the order by including the shipping cost and discount 
+        Args: 
+            discount codes, Shipping cost. 
+       Returns: Float of the final checkout price"""
         cost_of_products = 0
         for product in self.cart:
             cost_of_products += product.price * product.quantity
@@ -324,8 +333,10 @@ class Cart:
         print(f"Total saved: ${saved}")
               
     def show_in_different_currency(self, currency):
-        """Implement API here.
-        Returns the final price of the item in the customer's currency. Args: Original Price, Final price in desired currency."""
+        """Implement API here. 
+        Args: 
+            Original Price, Final price in desired currency.
+        Returns the final price of the item in the customer's currency."""
         cost = self.calculate_cost(self)
         if currency == "Euro":
             cost = cost * 0.82
