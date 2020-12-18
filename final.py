@@ -57,19 +57,14 @@ class Product:
         self.quantity = quantity
         self.vendor = vendor
         self.description = description
-        
-    def increase_quantity(self,qt):
-        """Adds to the amount of products
-        Args:
-            qt: current quantity of the products
+       
+    
+    def change_quantity(self, qt):
+        """Adds or decreases the quantity of products
+        Args
+            qt: current quantity of products
         """
         self.quantity += qt
-        
-    def decrease_quantity(self,qt):
-        """Decreases the quantity of products
-        Args:
-            qt: current quantity of the products
-        """
         self.quantity -= qt
 
 class User:
