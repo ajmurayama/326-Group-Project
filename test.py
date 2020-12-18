@@ -47,5 +47,6 @@ def test_vendor():
     assert vendor.see_my_products() == 'Stapler: $10.99. 100 available in stock.'
     
 
+
     
     
