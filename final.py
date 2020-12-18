@@ -1,3 +1,5 @@
+
+
 """INST326 Fall 2020 Team Project.
 Iskander Lou, Amanda Murayama, Hudson Graves, Iman Du.
 """
@@ -35,7 +37,7 @@ class Store:
         Returns:
             the username of the user
         """
-        for user in list_of_users:
+        for user in self.ist_of_users:
             if user.username == username:
                 return user
             
@@ -190,7 +192,7 @@ class Vendor(User):
         Args:
             qt: current quantity of the products
         """
-        return f"{product.name}: {product.price}$. {product.quantity}")
+        return f("{product.name}: {product.price}$. {product.quantity}")
             
     def see_my_products(self):
         """Prints the vendor's my_products list."""
@@ -301,46 +303,48 @@ class Cart:
     def show_cost(self):
         """Shows the final price of the products along with the addition of any discounts"""
 
-        cost = calculate_cost(self)
+        cost = self.calculate_cost(self)
         if self.discount != 0: 
-            cost = apply_discount(self)
-        print(f"Total checkout: ${cost}"
-    
+            cost = self.apply_discount(self)
+        print(f"Total checkout: ${cost}")
+        
     def apply_discount(self):
-       """Applies the discount to the checkout price.
-       Returns:
-            Total Discount"""
-        cost = calculate_cost(self)
+
+        '''
+        Applies a discount to the cart 
+        '''
+        
+        cost = self.calculate_cost()
         new_price = cost * (1 - (self.discount/100))
         
-        return discount_total
+        return new_price
     
     def show_amount_saved(self):
         """Shows the user the amount of money they saved.
         Returns:
             The total money they saved.
         """
-        saved = apply_discount(self)
-        print(f"Total saved: ${saved}"
+        saved = self.apply_discount(self)
+        print(f"Total saved: ${saved}")
               
-    def show_in_different_currency(self,currency):
+    def show_in_different_currency(self, currency):
         """Implement API here.
         Returns the final price of the item in the customer's currency. Args: Original Price, Final price in desired currency."""
-        cost = calculate_cost(self)
+        cost = self.calculate_cost(self)
         if currency == "Euro":
             cost = cost * 0.82
             print(f"Total checkout: €{cost}")
         if currency == "USD":
-            cost = cost 
-        if currency == "GBP"
+            cost = cost * 1
+        if currency == "GBP":
             cost = cost * 1.5
         else:
             print("Sorry, this currency is not available.")
             
     def checkout(self,customer, store):
         """Assuming the customer has enough balance."""
-        customer.balance -= calculate_cost(self)
-        for product in cart:
+        customer.balance -= self.calculate_cost(self)
+        for product in self.cart:
             customer.purchased_items.append(product)
             store.inventory.removed(product)
         self.cart = []
