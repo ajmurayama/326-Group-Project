@@ -104,24 +104,6 @@ class Customer(User):
         self.my_cart = Cart()
         self.my_balance = 0
         self.purchased_items = []
-        
-    def add_to_my_cart(self,product):
-        """Add a product to the cart.
-        Args:
-            product(Product object): a product that customer wants to add to their shopping cart.
-        Returns:
-            Updates the shopping cart.
-        """
-        self.my_cart.add_product(product)
-        
-    def remove_from_my_cart(self,product):
-        """Remove a product from the cart.
-        Args:
-            product(Product object): a product that customer wants to remove from their shopping cart.
-        Returns:
-            Updates the shopping cart.
-        """
-        self.my_cart.remove_product(product)
     
     def add_balance(self,quantity):
         """Add balance from credit card.
@@ -131,15 +113,6 @@ class Customer(User):
             Takes money from credit card and updates the balance.
         """
         self.my_balance += quantity
-        
-    def checkout_cart(self, store):
-        """Checkout the cart.
-        Args:
-            store(Store object): this store.
-        Returns:
-            Checkout the cart.
-        """
-        self.my_cart.checkout(self)
         
     def show_my_purchased_items(self):
         """Print customer's list of purchased items."""
@@ -355,3 +328,30 @@ class Cart:
             customer.purchased_items.append(product)
             store.inventory.removed(product)
         self.cart = []
+        
+    def add_to_my_cart(self,product):
+        """Add a product to the cart.
+        Args:
+            product(Product object): a product that customer wants to add to their shopping cart.
+        Returns:
+            Updates the shopping cart.
+        """
+        self.add_product(product)
+        
+    def remove_from_my_cart(self,product):
+        """Remove a product from the cart.
+        Args:
+            product(Product object): a product that customer wants to remove from their shopping cart.
+        Returns:
+            Updates the shopping cart.
+        """
+        self.remove_product(product)
+        
+    def checkout_cart(self, store):
+        """Checkout the cart.
+        Args:
+            store(Store object): this store.
+        Returns:
+            Checkout the cart.
+        """
+        self.checkout(self)
