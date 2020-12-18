@@ -1,7 +1,7 @@
 
 
 """INST326 Fall 2020 Team Project.
-Iskander Lou, Amanda Murayama, Hudson Graves, Iman Du.
+Iskander Lou, Amanda Murayama, Hudson Graves, Iman Durrani.
 """
 class Store:
     """E-commerce store.
@@ -57,15 +57,16 @@ class Product:
         self.quantity = quantity
         self.vendor = vendor
         self.description = description
-       
-    
-    def change_quantity(self, qt):
-        """Adds or decreases the quantity of products
-        Args
-            qt: current quantity of products
+        
+    def change_quantity(self, val, qt):
+        """Adds to the amount of products
+        Args:
+            qt: current quantity of the products
         """
-        self.quantity += qt
-        self.quantity -= qt
+        if val == "positive":
+            self.quantity += qt
+        if val == "negative":
+            self.quantity -= qt
 
 class User:
     """Parent class for Admin, Vendor, and Customer.
