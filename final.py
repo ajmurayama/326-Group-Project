@@ -58,15 +58,15 @@ class Product:
         self.vendor = vendor
         self.description = description
         
-    def change_quantity(self, val, qt):
-        """Adds to the amount of products
+    def change_quantity(self, val=positive, qt):
+        """Adds or removes to the amount of products to the cart, with the default being set to positive. 
         Args:
             qt: current quantity of the products
         """
-        if val == "positive":
-            self.quantity += qt
         if val == "negative":
             self.quantity -= qt
+        else:
+            self.quantity += qt
 
 class User:
     """Parent class for Admin, Vendor, and Customer.
@@ -329,7 +329,7 @@ class Cart:
             store.inventory.removed(product)
         self.cart = []
         
-    def change_cart(self,change_type, product):
+    def change_cart(self,change_type="remove", product):
         """Add or remove a product to the cart.
         Args:
             product(Product object): a product that customer wants to add to their shopping cart.
