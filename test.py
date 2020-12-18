@@ -19,5 +19,17 @@ def test_product():
     assert product.vendor == 'Office Depot'
     assert product.description == 'A stapler to staple papers'
     
+def test_cart():
+    
+    product = Product('Apple', 2501, 3, 'Sky7Food', 'A yummy fruit')
+    assert product is Product
+    assert cart = ['Apple', 'Apple', 'Apple']
+    assert cart.remove(product) == ['Apple', 'Apple']
+    assert cart.show_cost == 5002
+    assert cart.show_in_different_currency(Euro) = 4101.64
+    
+    
+   
+    
     
     
