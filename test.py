@@ -1,4 +1,6 @@
 from final import Product
+from final import Vendor
+from final import Cart
 import pytest
 
 def test_product():
@@ -21,12 +23,20 @@ def test_product():
     
 def test_cart():
     
+    cart = Cart()
+    
     product = Product('Apple', 2501, 3, 'Sky7Food', 'A yummy fruit')
     assert product is Product
-    assert cart = ['Apple', 'Apple', 'Apple']
+
+    cart.add_product(product)
+    cart.add_product(product)
+    cart.add_product(product)
+
+
+    assert cart.cart == ['Apple', 'Apple', 'Apple']
     assert cart.remove(product) == ['Apple', 'Apple']
-    assert cart.show_cost == 5002
-    assert cart.show_in_different_currency(Euro) = 4101.64
+    assert cart.show_cost() == 5002
+    assert cart.show_in_different_currency('Euro') == 4101.64
     
 def test_vendor():
     
