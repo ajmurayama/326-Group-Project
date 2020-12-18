@@ -329,23 +329,17 @@ class Cart:
             store.inventory.removed(product)
         self.cart = []
         
-    def add_to_my_cart(self,product):
-        """Add a product to the cart.
+    def change_cart(self,change_type, product):
+        """Add or remove a product to the cart.
         Args:
             product(Product object): a product that customer wants to add to their shopping cart.
         Returns:
             Updates the shopping cart.
         """
-        self.add_product(product)
-        
-    def remove_from_my_cart(self,product):
-        """Remove a product from the cart.
-        Args:
-            product(Product object): a product that customer wants to remove from their shopping cart.
-        Returns:
-            Updates the shopping cart.
-        """
-        self.remove_product(product)
+        if change_type == "add":
+            self.add_product(product)
+        else:
+            self.remove_product(product)
         
     def checkout_cart(self, store):
         """Checkout the cart.
