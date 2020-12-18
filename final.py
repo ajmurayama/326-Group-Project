@@ -125,11 +125,11 @@ class Vendor(User):
     Attribute:
         my_products(list of Product objects): list of products that vendor is selling.
     """
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, name, email, password):
+        super().__init__(name, email, password)
         self.my_products = []
         
-    def add_product(self,store,item_name,item_price,item_quantity):
+    def add_product(self, store, item_name,item_price,item_quantity, item_vendor, item_desc):
         """Add product to the store's inventory.
         Args:
             store(Store object): this store.
@@ -139,7 +139,7 @@ class Vendor(User):
         Returns:
             Updates the store's inventory and the vendor's my_products list.
         """
-        product = Product(item_name,item_price,item_quantity,self)
+        product = Product(item_name, item_price, item_quantity, item_vendor, item_desc)
         store.inventory.append(product)
         self.my_products.append(product)
         
@@ -163,12 +163,15 @@ class Vendor(User):
         Args:
             qt: current quantity of the products
         """
-        return f("{product.name}: {product.price}$. {product.quantity}")
-            
+        return 'f({product.name}: ${product.price}. {product.quantity})'
+        for product in self.my_products:
+            if product.name == name:
+               return product.name + ': $' + str(product.price) + ' ' + str(product.quantity)
+        return 'Product not found'
     def see_my_products(self):
         """Prints the vendor's my_products list."""
         for product in self.my_products:
-            print(f"{product.name}: {product.price}$. {product.quantity} available in stock.\n")
+            return (f"{product.name}: ${product.price} {product.quantity} available in stock.\n")
         
 class Admin(User):
     """Subclass of User. Has the authority to edit inventory, 
