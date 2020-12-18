@@ -28,8 +28,24 @@ def test_cart():
     assert cart.show_cost == 5002
     assert cart.show_in_different_currency(Euro) = 4101.64
     
+def test_vendor():
     
-   
+    vendor = Vendor('OD', 'office_depot@office.com')
+    store = Store() 
     
+    vendor.add_product(store, 'Stapler', 10.99, 100, 'Office Depot', 'A stapler to staple papers')
+    vendor.add_product(store, 'Paper', 3.99, 1000, 'Office Depot', 'Paper')
+    
+    assert len(vendor.my_products) == 2
+    
+    assert vendor.get_product_information('Stapler') == 'Stapler: $10.99 100'
+    
+    vendor.remove_product('Paper')
+    
+    assert len(vendor.my_products) == 1
+    
+    assert vendor.see_my_products() == 'Stapler: $10.99. 100 available in stock.'
+    
+
     
     
