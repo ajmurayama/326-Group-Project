@@ -1,5 +1,3 @@
-
-
 """INST326 Fall 2020 Team Project.
 Iskander Lou, Amanda Murayama, Hudson Graves, Iman Durrani.
 """
@@ -58,7 +56,7 @@ class Product:
         self.vendor = vendor
         self.description = description
         
-    def change_quantity(self, val=positive, qt):
+    def change_quantity(self, val, qt):
         """Adds or removes to the amount of products to the cart, with the default being set to positive. 
         Args:
             qt: current quantity of the products
@@ -89,8 +87,7 @@ class User:
             the product name, price, quantity and whether it's in stock or not.
         """
         for product in store.inventory:
-            print(f"{product.name}: {product.price}$. {product.quantity}
-            available in stock.\n")
+            print(f"{product.name}: {product.price}$. {product.quantity} available in stock.\n")
         
 class Customer(User):
     """Subclass of User. Buys products in this store.
@@ -99,8 +96,8 @@ class Customer(User):
         my_balance(int): customer's balance with which they pay for products.
         purchased_items(list of Product objects): a list of products that have been purchased by the customer.
     """
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, username, email, password):
+        super().__init__(username, email, password)
         self.my_cart = Cart()
         self.my_balance = 0
         self.purchased_items = []
@@ -112,7 +109,7 @@ class Customer(User):
         Returns:
             Takes money from credit card and updates the balance.
         """
-        self.my_balance += quantity
+        self.my_balance += int(quantity)
         
     def show_my_purchased_items(self):
         """Print customer's list of purchased items."""
@@ -125,11 +122,11 @@ class Vendor(User):
     Attribute:
         my_products(list of Product objects): list of products that vendor is selling.
     """
-    def __init__(self, name, email, password):
-        super().__init__(name, email, password)
+    def __init__(self, username, email, password):
+        super().__init__(username, email, password)
         self.my_products = []
         
-    def add_product(self, store, item_name,item_price,item_quantity, item_vendor, item_desc):
+    def add_product(self,item_name,item_price,item_quantity, description):
         """Add product to the store's inventory.
         Args:
             store(Store object): this store.
@@ -139,8 +136,7 @@ class Vendor(User):
         Returns:
             Updates the store's inventory and the vendor's my_products list.
         """
-        product = Product(item_name, item_price, item_quantity, item_vendor, item_desc)
-        store.inventory.append(product)
+        product = Product(item_name,item_price,item_quantity,self, description)
         self.my_products.append(product)
         
     def remove_product(self,store,item_name):
@@ -158,24 +154,25 @@ class Vendor(User):
             self.my_products.remove(product)
         else:
             print("You are not selling this product.")
+            
     def get_product_information(self,name):
         """returns the current product information.
         Args:
             qt: current quantity of the products
         """
-        return 'f({product.name}: ${product.price}. {product.quantity})'
-        for product in self.my_products:
-            if product.name == name:
-               return product.name + ': $' + str(product.price) + ' ' + str(product.quantity)
-        return 'Product not found'
+        return f("{product.name}: {product.price}$. {product.quantity}")
+            
     def see_my_products(self):
         """Prints the vendor's my_products list."""
         for product in self.my_products:
-            return (f"{product.name}: ${product.price} {product.quantity} available in stock.\n")
+            print(f"Name: {product.name}  Price: ${product.price}  Quantity: {product.quantity}  Description: {product.description}")
         
 class Admin(User):
     """Subclass of User. Has the authority to edit inventory, 
     add/remove vendors and customers, see their info."""
+    def __init__(self, username, email, password):
+        super().__init__(username, email, password)
+
     def add_to_inventory(self,store,item_name,item_quantity,item_price):
         """Assuming the product is not in inventory, adds a new product to the inventory.
         Args:
@@ -284,9 +281,9 @@ class Cart:
     def show_cost(self):
         """Shows the final price of the products along with the addition of any discounts"""
 
-        cost = self.calculate_cost(self)
+        cost = self.calculate_cost()
         if self.discount != 0: 
-            cost = self.apply_discount(self)
+            cost = self.apply_discount()
         print(f"Total checkout: ${cost}")
         
     def apply_discount(self):
@@ -305,7 +302,7 @@ class Cart:
         Returns:
             The total money they saved.
         """
-        saved = self.apply_discount(self)
+        saved = self.apply_discount()
         print(f"Total saved: ${saved}")
               
     def show_in_different_currency(self, currency):
@@ -313,26 +310,26 @@ class Cart:
         Args: 
             Original Price, Final price in desired currency.
         Returns the final price of the item in the customer's currency."""
-        cost = self.calculate_cost(self)
+        cost = self.calculate_cost()
         if currency == "Euro":
             cost = cost * 0.82
             print(f"Total checkout: €{cost}")
-        if currency == "USD":
+        elif currency == "USD":
             cost = cost * 1
-        if currency == "GBP":
+        elif currency == "GBP":
             cost = cost * 1.5
         else:
             print("Sorry, this currency is not available.")
             
     def checkout(self,customer, store):
         """Assuming the customer has enough balance."""
-        customer.balance -= self.calculate_cost(self)
+        customer.balance -= self.calculate_cost()
         for product in self.cart:
             customer.purchased_items.append(product)
             store.inventory.removed(product)
         self.cart = []
         
-    def change_cart(self,change_type="remove", product):
+    def change_cart(self,change_type, product):
         """Add or remove a product to the cart.
         Args:
             product(Product object): a product that customer wants to add to their shopping cart.
@@ -343,12 +340,3 @@ class Cart:
             self.add_product(product)
         else:
             self.remove_product(product)
-        
-    def checkout_cart(self, store):
-        """Checkout the cart.
-        Args:
-            store(Store object): this store.
-        Returns:
-            Checkout the cart.
-        """
-        self.checkout(self)
