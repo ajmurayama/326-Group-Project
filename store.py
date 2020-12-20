@@ -38,6 +38,7 @@ class Shopping:
                 i += 1
                         
     def welcome(self):
+        """Welcomes the user and gives them the choice to sign-in, register or visit as guest."""
         self.make_space(1, "line")
         print("Welcome to your online store!\nYou can either register as a vendor" +
               " to start selling clothes, or as a buyer, to start shopping clothes from vendors.")
@@ -53,6 +54,10 @@ class Shopping:
             self.home_page_customer()
     
     def sign_in(self):
+        """User signs in using their username and password
+        Returns:
+            A statement saying that you have successfully signed in or returns you to home page.
+        """
         self.make_space(1, "line")
         username_valid = False
         password_valid = False
@@ -81,6 +86,13 @@ class Shopping:
             self.home_page_vendor()
         
     def register(self):
+        """Allows user to register by creating a username and password, inputting an e-mail and 
+           selecting a customer type.
+        Returns:
+            A statement saying that you have successfully registerred either as a customer or vendor, 
+            along with printing your username, password and e-mail
+        """
+     
         self.make_space(1, "line")
         input_username = input("Username? ")
         input_email = input("Email? ")
@@ -106,6 +118,9 @@ class Shopping:
             self.home_page_vendor()
         
     def home_page_customer(self):
+        """Displays the homepage and gives the user options to either see their balance, 
+           see inventory, see their cart or to sign out.
+        """
         self.make_space(1, "line")
         print("You are in the home page.")
         self.make_space(1, "space")
@@ -127,6 +142,10 @@ class Shopping:
             self.welcome()
         
     def see_balance(self):
+        """Displays the users balance and allows user to add balance.
+        Returns:
+            A statement with the users current balance.
+        """
         if self.current_user == None:
             self.make_space(1, "line")
             print("You need to sign in.")
@@ -146,6 +165,9 @@ class Shopping:
         self.home_page_customer()
         
     def see_inventory(self):
+        """Displays the inventory with the product name, price and vendor, and allows user
+            to add product to their cart, show more product information or return to home page.
+        """
         self.make_space(1, "line")
         for product in self.inventory:
             print(f"Name: {product.name}   Price: ${product.price}   Vendor: {product.vendor}")
@@ -178,6 +200,7 @@ class Shopping:
                 self.home_page_customer()
             
     def see_expanded_inventory(self):
+        """Displays invendory with more information about the product"""
         self.make_space(1, "line")
         for product in self.inventory:
             print(f"Name: {product.name} Price: ${product.price} Vendor: {product.vendor} Quantity Available: {product.quantity} Description: {product.description}")
@@ -212,11 +235,13 @@ class Shopping:
                 self.home_page_customer()
             
     def add_product_to_cart(self,item_name):
+        """Adds product to cart from inventory"""
         for product in self.inventory:
             if product.name == item_name:
                 self.current_user.my_cart.add_product(product)
             
     def see_cart(self):
+        """Allows user to view what products are in their cart."""
         if self.current_user == None:
             self.make_space(1, "line")
             print("You need to sign in.")
@@ -243,6 +268,7 @@ class Shopping:
             self.home_page_customer()
             
     def cart_in_different_currency(self):
+        """Displays the cost of user cart in different currency"""
         self.make_space(1, "line")
         print("Products in my cart:")
         for product in self.current_user.my_cart.cart:
@@ -264,6 +290,7 @@ class Shopping:
             self.home_page_customer()
         
     def home_page_vendor(self):
+        """Display a vendors home page"""
         self.make_space(1, "line")
         print("You are in the home page.")
         self.make_space(1, "space")
@@ -277,6 +304,7 @@ class Shopping:
             self.see_store_inventory()
             
     def see_vendor_products(self):
+        """Displays the vendors products."""
         self.make_space(1, "line")
         self.current_user.see_my_products()
         self.make_space(1, "space")
@@ -299,6 +327,7 @@ class Shopping:
             self.home_page_vendor()
     
     def see_store_inventory(self):
+        """Displays store inventory including product name, price and vendor."""
         self.make_space(1, "line")
         for product in self.inventory:
             print(f"Name: {product.name}   Price: {product.price}   Vendor: {product.vendor}")
@@ -313,6 +342,7 @@ class Shopping:
             self.home_page_vendor()
             
     def see_expanded_store_inventory(self):
+        """Displays extra information about products in the store"""
         self.make_space(1, "line")
         for product in self.inventory:
             print(f"Name: {product.name} Price: {product.price} Vendor: {product.vendor} Quantity Available: {product.quantity} Description: {product.description}")
@@ -327,6 +357,7 @@ class Shopping:
             self.home_page_vendor()
             
     def add_product(self, item_name, item_price, item_quantity, description):
+        """Adds product to inventory and to the user"""
         self.inventory.append(Product(item_name,item_price,item_quantity,self.current_user.username,description))
         self.current_user.add_product(item_name,item_price,item_quantity,description)
         
